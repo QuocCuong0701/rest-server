@@ -36,6 +36,14 @@ public class TaskService {
         );
     }
 
+    public List<Task> getAllTasks(long personId) {
+        TaskSpecification specification = TaskSpecification.spec();
+
+        Optional.of(personId).ifPresent(s -> specification.byPersonId(personId));
+
+        return taskRepository.findAll(specification.build());
+    }
+
     public Task save(Task task) {
         return taskRepository.save(task);
     }
