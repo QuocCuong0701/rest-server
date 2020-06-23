@@ -1,7 +1,6 @@
 package com.example.restdemo2.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -29,11 +28,12 @@ public class Person implements Serializable {
     @Enumerated(value = EnumType.STRING)
     private Status status;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "person", fetch = FetchType.LAZY)
     private Set<Task> tasks = new HashSet<>();
 
-    public enum Status {
+    public enum Status{
         ACTIVE,
-        INACTIVE
+        INACTIVE;
     }
 }
