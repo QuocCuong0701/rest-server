@@ -2,8 +2,8 @@ package com.example.restdemo2.service;
 
 import com.example.restdemo2.domain.Person;
 import com.example.restdemo2.dto.PersonDTO;
+import com.example.restdemo2.endpoint.RESTResponse;
 import com.example.restdemo2.endpoint.rest.RESTPagination;
-import com.example.restdemo2.endpoint.rest.RESTResponse;
 import com.example.restdemo2.repository.PersonRepository;
 import com.example.restdemo2.specification.PersonSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +12,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import java.util.Optional;
 import java.util.stream.Collectors;

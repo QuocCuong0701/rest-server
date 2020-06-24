@@ -27,7 +27,7 @@ public class Task implements Serializable {
     @NotNull
     private String image;
 
-    @JsonIgnore
+
     @ManyToOne(fetch = FetchType.LAZY)
     private Person person;
 }

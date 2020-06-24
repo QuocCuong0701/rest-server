@@ -2,13 +2,11 @@ package com.example.restdemo2.specification;
 
 import com.example.restdemo2.domain.Person;
 import com.example.restdemo2.domain.Person_;
-import com.example.restdemo2.domain.Task;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;

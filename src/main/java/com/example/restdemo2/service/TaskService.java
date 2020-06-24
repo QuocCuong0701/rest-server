@@ -2,7 +2,7 @@ package com.example.restdemo2.service;
 
 import com.example.restdemo2.domain.Task;
 import com.example.restdemo2.dto.TaskDTO;
-import com.example.restdemo2.endpoint.rest.RESTResponse;
+import com.example.restdemo2.endpoint.RESTResponse;
 import com.example.restdemo2.repository.TaskRepository;
 import com.example.restdemo2.specification.TaskSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,6 @@ public class TaskService {
 
     public ResponseEntity<Object> getALL(Long id) {
         TaskSpecification specification = TaskSpecification.spec();
-
         Optional.ofNullable(id).ifPresent(s -> specification.byPersonId(id));
 
         List<Task> tasks = taskRepository.findAll(specification.build());

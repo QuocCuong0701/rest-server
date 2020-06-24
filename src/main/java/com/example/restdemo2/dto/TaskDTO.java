@@ -12,9 +12,10 @@ public class TaskDTO {
     private String description;
     private String image;
     private Long personId;
-    private Person Person;
+    private Person person;
 
     public TaskDTO(Task task) {
+        task.setPerson(new Person());
         modelMapper.map(task, this);
     }
 }
