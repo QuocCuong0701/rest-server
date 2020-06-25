@@ -2,7 +2,7 @@ package com.example.restdemo2.dto;
 
 import java.util.List;
 
-public class Persons {
+public class DateRun {
 
     public static void main(String[] args) {
         String date = "27/02/2000";

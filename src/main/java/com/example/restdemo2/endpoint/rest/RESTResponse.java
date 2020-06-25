@@ -1,6 +1,4 @@
-package com.example.restdemo2.endpoint;
-
-import com.example.restdemo2.endpoint.rest.RESTPagination;
+package com.example.restdemo2.endpoint.rest;
 
 import java.util.ArrayList;
 import java.util.HashMap;

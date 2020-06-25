@@ -1,12 +1,9 @@
 package com.example.restdemo2.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 @Entity
@@ -19,14 +16,15 @@ public class Task implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotNull
+    @NotBlank(message = "{title}")
     private String title;
+
+    @NotBlank(message = "{description}")
     @Lob
     private String description;
-    @Lob
-    @NotNull
-    private String image;
 
+    @Lob
+    private String image;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Person person;

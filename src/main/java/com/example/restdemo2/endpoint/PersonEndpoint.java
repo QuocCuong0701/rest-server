@@ -5,11 +5,15 @@ import com.example.restdemo2.dto.PersonDTO;
 import com.example.restdemo2.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.constraints.Min;
 
 @RestController
 @RequestMapping(value = "/api_v1/person")
 @CrossOrigin(value = "*", allowedHeaders = "*")
+@Validated
 public class PersonEndpoint {
 
     @Autowired
@@ -35,4 +39,16 @@ public class PersonEndpoint {
     public PersonDTO updatePerson(@RequestBody Person person) {
         return new PersonDTO(personService.updatePerson(person));
     }
+
+    // Test Validation
+    @GetMapping("/person/{id}")
+    public Person getById(@Min(2) @PathVariable("id") Long id) {
+        return new Person("Cuong", 23);
+    }
+
+    @PostMapping("/person")
+    public Person create(@RequestBody @Validated Person person) {
+        return person;
+    }
+    // End Test Validation
 }

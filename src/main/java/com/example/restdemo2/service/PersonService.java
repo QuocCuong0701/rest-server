@@ -2,7 +2,7 @@ package com.example.restdemo2.service;
 
 import com.example.restdemo2.domain.Person;
 import com.example.restdemo2.dto.PersonDTO;
-import com.example.restdemo2.endpoint.RESTResponse;
+import com.example.restdemo2.endpoint.rest.RESTResponse;
 import com.example.restdemo2.endpoint.rest.RESTPagination;
 import com.example.restdemo2.repository.PersonRepository;
 import com.example.restdemo2.specification.PersonSpecification;
