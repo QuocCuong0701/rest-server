@@ -19,7 +19,7 @@ public class TaskService {
     @Autowired
     TaskRepository taskRepository;
 
-    public ResponseEntity<Object> getALL(Long id) {
+    /*public ResponseEntity<Object> getALL(Long id) {
         TaskSpecification specification = TaskSpecification.spec();
         Optional.ofNullable(id).ifPresent(s -> specification.byPersonId(id));
 
@@ -33,16 +33,16 @@ public class TaskService {
                         .build()
                 , HttpStatus.OK
         );
-    }
+    }*/
 
+    // Get All Task By Person Id
     public List<Task> getAllTasks(long personId) {
         TaskSpecification specification = TaskSpecification.spec();
-
         Optional.of(personId).ifPresent(s -> specification.byPersonId(personId));
-
         return taskRepository.findAll(specification.build());
     }
 
+    // Save Task
     public Task save(Task task) {
         return taskRepository.save(task);
     }

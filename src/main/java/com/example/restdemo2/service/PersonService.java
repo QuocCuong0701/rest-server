@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -22,7 +23,7 @@ public class PersonService {
     @Autowired
     PersonRepository personRepository;
 
-    public ResponseEntity<Object> getAll(String keyword, String status, int page, int limit, Long id) {
+    /*public ResponseEntity<Object> getAll(String keyword, String status, int page, int limit, Long id) {
         PersonSpecification specification = PersonSpecification.spec();
 
         Optional.ofNullable(keyword).ifPresent(specification::byName);
@@ -39,6 +40,16 @@ public class PersonService {
                         .setPagination(new RESTPagination(page, limit, personPage.getTotalPages(), personPage.getTotalElements())).build()
                 , HttpStatus.OK
         );
+    }*/
+
+    public Page<Person> getAllPerson(String keyword, String status, int page, int limit, Long id){
+        PersonSpecification specification = PersonSpecification.spec();
+
+        Optional.ofNullable(keyword).ifPresent(specification::byName);
+        Optional.ofNullable(status).ifPresent(s -> specification.byStatus(Person.Status.valueOf(s)));
+        Optional.ofNullable(id).ifPresent(s -> specification.byId(id));
+
+        return personRepository.findAll(specification.build(), PageRequest.of(page - 1, limit));
     }
 
     public Person getOne(Long id) {

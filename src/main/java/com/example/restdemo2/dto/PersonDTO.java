@@ -5,6 +5,7 @@ import com.example.restdemo2.domain.Task;
 import lombok.Data;
 import org.modelmapper.ModelMapper;
 
+import javax.validation.constraints.NotBlank;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -14,6 +15,7 @@ public class PersonDTO {
     private static ModelMapper modelMapper = new ModelMapper();
 
     private Long id;
+    @NotBlank(message = "{NotBlank.person.name}")
     private String name;
     private Integer age;
     private Double salary;
@@ -22,7 +24,7 @@ public class PersonDTO {
     private String dobFormat;
     private String statusStr;
     private Person.Status status;
-    private boolean isHasTask = true;
+    private boolean isHasTask;
 
     private List<Task> tasks = new ArrayList<>();
 

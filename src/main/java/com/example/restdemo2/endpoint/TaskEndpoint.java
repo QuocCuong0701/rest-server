@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/api_v1/task")
@@ -17,44 +18,20 @@ public class TaskEndpoint {
     @Autowired
     TaskService taskService;
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Object> task(@PathVariable("id") Long personId) {
-        return taskService.getALL(personId);
+    @GetMapping("/{personId}")
+    public List<TaskDTO> getAllTasksByPersonId(@PathVariable("personId") Long personId) {
+        List<Task> tasks = taskService.getAllTasks(personId);
+        return tasks.stream().map(TaskDTO::new).collect(Collectors.toList());
     }
-
-    @GetMapping("/t/{id}")
-    public List<Task> findTask(@PathVariable("id") Long id){
-        return taskService.getAllTasks(id);
-    }
-
-    /*@PostMapping("/save")
-    public TaskDTO saveTask(@Valid @RequestBody Task task) {
-        return new TaskDTO(taskService.save(task));
-    }*/
 
     @PostMapping("/save")
     public ResponseEntity<?> saveTask(@Valid @RequestBody Task task) {
         return ResponseEntity.ok(new TaskDTO(taskService.save(task)));
     }
 
-   /* @PostMapping("/test")
-    public ResponseEntity<?> saveTask(@Valid @RequestBody Task task, BindingResult errors) {
-        if (errors.hasErrors()) {
-            ValidationError errors1 = ValidationErrorBuilder.fromBindingErrors(errors);
-            return ResponseEntity.badRequest().body(errors1);
-        }
-        return ResponseEntity.ok(task);
-    }*/
-
     @PostMapping("/valid")
     public ResponseEntity<?> postTask(@Valid Task task) {
         return ResponseEntity.ok(task);
     }
 
-    /*@ExceptionHandler
-    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-    public ValidationError validationError(MethodArgumentNotValidException e) {
-        ValidationError validationError = ValidationErrorBuilder.fromBindingErrors(e.getBindingResult());
-        return validationError;
-    }*/
 }

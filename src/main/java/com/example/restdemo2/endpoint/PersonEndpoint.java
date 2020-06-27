@@ -2,13 +2,19 @@ package com.example.restdemo2.endpoint;
 
 import com.example.restdemo2.domain.Person;
 import com.example.restdemo2.dto.PersonDTO;
+import com.example.restdemo2.endpoint.rest.RESTPagination;
+import com.example.restdemo2.endpoint.rest.RESTResponse;
 import com.example.restdemo2.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Min;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/api_v1/person")
@@ -27,7 +33,15 @@ public class PersonEndpoint {
             @RequestParam(value = "status", required = false) String status,
             @RequestParam(value = "personId", required = false) Long personId
     ) {
-        return personService.getAll(keyword, status, page, limit, personId);
+        Page<Person> personPage=personService.getAllPerson(keyword, status, page, limit, personId);
+        return new ResponseEntity<>(
+                RESTResponse.Builder()
+                        .setStatus(HttpStatus.OK.value())
+                        .setMessage("Lấy danh sách thành công!")
+                        .setDatas(personPage.getContent().stream().map(PersonDTO::new).collect(Collectors.toList()))
+                        .setPagination(new RESTPagination(page, limit, personPage.getTotalPages(), personPage.getTotalElements())).build()
+                , HttpStatus.OK
+        );
     }
 
     @GetMapping("/{id}")
@@ -36,11 +50,11 @@ public class PersonEndpoint {
     }
 
     @PostMapping("/update")
-    public PersonDTO updatePerson(@RequestBody Person person) {
-        return new PersonDTO(personService.updatePerson(person));
+    public PersonDTO updatePerson(@Valid @RequestBody PersonDTO person) {
+        return new PersonDTO(personService.updatePerson(person.toEntity()));
     }
 
-    // Test Validation
+    //region Test Validation
     @GetMapping("/person/{id}")
     public Person getById(@Min(2) @PathVariable("id") Long id) {
         return new Person("Cuong", 23);
@@ -50,5 +64,5 @@ public class PersonEndpoint {
     public Person create(@RequestBody @Validated Person person) {
         return person;
     }
-    // End Test Validation
+    //endregion
 }

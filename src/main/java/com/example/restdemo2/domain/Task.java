@@ -16,10 +16,10 @@ public class Task implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotBlank(message = "{title}")
+    @NotBlank(message = "{NotBlank.task.title}")
     private String title;
 
-    @NotBlank(message = "{description}")
+    @NotBlank(message = "{NotBlank.task.description}")
     @Lob
     private String description;
 

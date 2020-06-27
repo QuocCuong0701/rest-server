@@ -9,6 +9,7 @@ import javax.validation.constraints.NotBlank;
 @Data
 public class TaskDTO {
     public static ModelMapper modelMapper = new ModelMapper();
+    private Long id;
     private String title;
     private String description;
     private String image;

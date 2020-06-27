@@ -21,7 +21,7 @@ public class Person implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotBlank(message = "Title must not be null.")
+    //@NotBlank(message = "{NotBlank.person.name}")
     private String name;
     private Integer age;
     private Double salary;
@@ -34,7 +34,7 @@ public class Person implements Serializable {
     @OneToMany(mappedBy = "person", fetch = FetchType.LAZY)
     private Set<Task> tasks = new HashSet<>();
 
-    public Person(@NotBlank(message = "Title must not be null.") String name, Integer age) {
+    public Person(String name, Integer age) {
         this.name = name;
         this.age = age;
     }
