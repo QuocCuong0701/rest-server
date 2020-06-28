@@ -85,7 +85,7 @@ public class ExceptionTranslator {
         Map<String, Object> response = new HashMap<>();
         response.put("errors", errors);
         response.put("status", HttpStatus.BAD_REQUEST.value());
-        response.put("message", "Co loi xay ra!");
+        response.put("message", HttpStatus.BAD_REQUEST.getReasonPhrase());
         return response;
     }
 }
