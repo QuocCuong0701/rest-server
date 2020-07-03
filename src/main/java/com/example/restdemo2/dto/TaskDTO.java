@@ -3,6 +3,7 @@ import com.example.restdemo2.domain.Person;
 import com.example.restdemo2.domain.Task;
 import lombok.Data;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.BeanUtils;
 
 import javax.validation.constraints.NotBlank;
 
@@ -12,12 +13,18 @@ public class TaskDTO {
     private Long id;
     private String title;
     private String description;
-    private String image;
+    private int priority;
+    private String priorityName;
+    private String classTable;
     private Long personId;
-    private Person person;
+    //private Person person;
 
     public TaskDTO(Task task) {
-        task.setPerson(new Person());
-        modelMapper.map(task, this);
+        BeanUtils.copyProperties(task, this);
+        this.personId = task.getPerson().getId();
+        task.setPerson(task.getPerson());
+        Task.Priority priority = Task.Priority.getPriorityByCode(task.getPriority());
+        this.priorityName = priority.getName();
+        this.classTable = priority.getClassTable();
     }
 }

@@ -15,7 +15,6 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@ToString
 @Entity
 public class Person implements Serializable {
     @Id
@@ -31,7 +30,7 @@ public class Person implements Serializable {
     private Status status;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "person", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "person", fetch = FetchType.EAGER)
     private Set<Task> tasks = new HashSet<>();
 
     public Person(String name, Integer age) {

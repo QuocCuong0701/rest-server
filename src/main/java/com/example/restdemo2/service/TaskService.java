@@ -19,22 +19,6 @@ public class TaskService {
     @Autowired
     TaskRepository taskRepository;
 
-    /*public ResponseEntity<Object> getALL(Long id) {
-        TaskSpecification specification = TaskSpecification.spec();
-        Optional.ofNullable(id).ifPresent(s -> specification.byPersonId(id));
-
-        List<Task> tasks = taskRepository.findAll(specification.build());
-
-        return new ResponseEntity<>(
-                RESTResponse.Builder()
-                        .setStatus(HttpStatus.OK.value())
-                        .setMessage("Lấy danh sách công việc thành công!")
-                        .setDatas(tasks.stream().map(TaskDTO::new).collect(Collectors.toList()))
-                        .build()
-                , HttpStatus.OK
-        );
-    }*/
-
     // Get All Task By Person Id
     public List<Task> getAllTasks(long personId) {
         TaskSpecification specification = TaskSpecification.spec();
@@ -47,4 +31,7 @@ public class TaskService {
         return taskRepository.save(task);
     }
 
+    public List<Task> taskList(long id){
+        return taskRepository.getAllByPersonId(id);
+    }
 }

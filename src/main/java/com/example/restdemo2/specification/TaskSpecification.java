@@ -19,7 +19,7 @@ public class TaskSpecification {
         return new TaskSpecification();
     }
 
-    // By Person Id
+    // Get Task By Person Id
     public void byPersonId(Long id) {
         taskSpecs.add(hasPersonId(id));
     }
