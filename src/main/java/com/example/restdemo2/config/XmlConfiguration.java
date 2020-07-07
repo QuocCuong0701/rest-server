@@ -1,6 +1,8 @@
 package com.example.restdemo2.config;
 
 import com.example.restdemo2.service.UserDetailsServiceImpl;
+import lombok.SneakyThrows;
+import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.ApplicationContext;
@@ -14,12 +16,14 @@ import org.springframework.ws.server.endpoint.interceptor.PayloadLoggingIntercep
 import org.springframework.ws.soap.security.wss4j2.Wss4jSecurityInterceptor;
 import org.springframework.ws.soap.security.wss4j2.callback.SimplePasswordValidationCallbackHandler;
 import org.springframework.ws.soap.security.wss4j2.callback.SpringSecurityPasswordValidationCallbackHandler;
+import org.springframework.ws.soap.security.wss4j2.support.CryptoFactoryBean;
 import org.springframework.ws.soap.server.endpoint.interceptor.PayloadValidatingInterceptor;
 import org.springframework.ws.transport.http.MessageDispatcherServlet;
 import org.springframework.ws.wsdl.wsdl11.DefaultWsdl11Definition;
 import org.springframework.xml.xsd.SimpleXsdSchema;
 import org.springframework.xml.xsd.XsdSchema;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Properties;
 
@@ -64,6 +68,7 @@ public class XmlConfiguration extends WsConfigurerAdapter {
         return validatingInterceptor;
     }
 
+    @SneakyThrows
     @Override
     public void addInterceptors(List<EndpointInterceptor> interceptors) {
         interceptors.add(payloadLoggingInterceptor());
@@ -75,11 +80,27 @@ public class XmlConfiguration extends WsConfigurerAdapter {
     UserDetailsServiceImpl userDetailsService;
 
     @Bean
-    Wss4jSecurityInterceptor securityInterceptor() {
+    Wss4jSecurityInterceptor securityInterceptor() throws Exception {
         Wss4jSecurityInterceptor securityInterceptor = new Wss4jSecurityInterceptor();
-        securityInterceptor.setValidationCallbackHandler(callbackHandler());
-        securityInterceptor.setValidationActions("UsernameToken");
+
+        // set security actions
+        securityInterceptor.setSecurementActions("Timestamp Signature");
+
+        //sign the request
+        securityInterceptor.setSecurementUsername("mycert");
+        securityInterceptor.setSecurementPassword("123456");
+        securityInterceptor.setSecurementSignatureCrypto(getCryptoFactoryBean().getObject());
+        /*securityInterceptor.setValidationCallbackHandler(callbackHandler());
+        securityInterceptor.setValidationActions("UsernameToken");*/
         return securityInterceptor;
+    }
+
+    @Bean
+    public CryptoFactoryBean getCryptoFactoryBean() throws IOException {
+        CryptoFactoryBean cryptoFactoryBean = new CryptoFactoryBean();
+        cryptoFactoryBean.setKeyStorePassword("123456");
+        cryptoFactoryBean.setKeyStoreLocation(new ClassPathResource("keystore/server.keystore"));
+        return cryptoFactoryBean;
     }
 
     /*@Bean
@@ -89,12 +110,12 @@ public class XmlConfiguration extends WsConfigurerAdapter {
         return callbackHandler;
     }*/
 
-    @Bean
+    /*@Bean
     SimplePasswordValidationCallbackHandler callbackHandler() {
         SimplePasswordValidationCallbackHandler callbackHandler = new SimplePasswordValidationCallbackHandler();
         Properties user = new Properties();
         user.setProperty("admin", "pass");
         callbackHandler.setUsers(user);
         return callbackHandler;
-    }
+    }*/
 }
