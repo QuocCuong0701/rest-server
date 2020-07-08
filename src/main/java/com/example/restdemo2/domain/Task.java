@@ -11,6 +11,7 @@ import java.io.Serializable;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+//@RequiredArgsConstructor
 @Builder
 public class Task implements Serializable {
     @Id

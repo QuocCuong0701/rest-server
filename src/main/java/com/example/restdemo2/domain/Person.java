@@ -37,6 +37,18 @@ public class Person implements Serializable {
         this.age = age;
     }
 
+    public Person(long id) {
+        this.id = id;
+    }
+
+    public Person(String name, Integer age, Double salary, Date dob, Status status) {
+        this.name = name;
+        this.age = age;
+        this.salary = salary;
+        this.dob = dob;
+        this.status = status;
+    }
+
     public enum Status{
         ACTIVE,
         INACTIVE;
