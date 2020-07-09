@@ -19,7 +19,6 @@ public class Person implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    //@NotBlank(message = "{NotBlank.person.name}")
     private String name;
     private Integer age;
     private Double salary;
@@ -41,7 +40,8 @@ public class Person implements Serializable {
         this.id = id;
     }
 
-    public Person(String name, Integer age, Double salary, Date dob, Status status) {
+    public Person(Long id,String name, Integer age, Double salary, Date dob, Status status) {
+        this.id=id;
         this.name = name;
         this.age = age;
         this.salary = salary;

@@ -27,4 +27,14 @@ public class TaskDTO {
         this.priorityName = priority.getName();
         this.classTable = priority.getClassTable();
     }
+
+    public TaskDTO(Long id, String title, String description, int priority, String priorityName, String classTable, Long personId) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.priority = priority;
+        this.priorityName = priorityName;
+        this.classTable = classTable;
+        this.personId = personId;
+    }
 }

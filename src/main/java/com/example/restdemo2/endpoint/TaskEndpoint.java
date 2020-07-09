@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 @RequestMapping(value = "/api_v1/task")
 @CrossOrigin(value = "*", allowedHeaders = "*")
 public class TaskEndpoint {
+
     @Autowired
     TaskService taskService;
 
@@ -26,12 +27,13 @@ public class TaskEndpoint {
 
     @PostMapping("/save")
     public ResponseEntity<?> saveTask(@Valid @RequestBody Task task) {
-        return ResponseEntity.ok(new TaskDTO(taskService.save(task)));
+        Task taskResult = taskService.save(task);
+        return ResponseEntity.ok(new TaskDTO(taskResult));
     }
 
-    @PostMapping("/valid")
+    /*@PostMapping("/valid")
     public ResponseEntity<?> postTask(@Valid Task task) {
         return ResponseEntity.ok(task);
-    }
+    }*/
 
 }

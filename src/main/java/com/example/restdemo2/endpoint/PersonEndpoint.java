@@ -26,14 +26,14 @@ public class PersonEndpoint {
     PersonService personService;
 
     @GetMapping
-    public ResponseEntity<Object> persons(
+    public ResponseEntity<Object> getAllPeople(
             @RequestParam(value = "keyword", required = false) String keyword,
             @RequestParam(defaultValue = "1", required = false) int page,
             @RequestParam(defaultValue = "10", required = false) int limit,
             @RequestParam(value = "status", required = false) String status,
             @RequestParam(value = "personId", required = false) Long personId
     ) {
-        Page<Person> personPage=personService.getAllPerson(keyword, status, page, limit, personId);
+        Page<Person> personPage = personService.getAllPerson(keyword, status, page, limit, personId);
         return new ResponseEntity<>(
                 RESTResponse.Builder()
                         .setStatus(HttpStatus.OK.value())
@@ -45,7 +45,7 @@ public class PersonEndpoint {
     }
 
     @GetMapping("/{id}")
-    public PersonDTO person(@PathVariable("id") Long id) {
+    public PersonDTO getPersonById(@PathVariable("id") Long id) {
         return new PersonDTO(personService.getOne(id));
     }
 
@@ -55,7 +55,7 @@ public class PersonEndpoint {
     }
 
     //region Test Validation
-    @GetMapping("/person/{id}")
+   /* @GetMapping("/person/{id}")
     public Person getById(@Min(2) @PathVariable("id") Long id) {
         return new Person("Cuong", 23);
     }
@@ -63,6 +63,6 @@ public class PersonEndpoint {
     @PostMapping("/person")
     public Person create(@RequestBody @Validated Person person) {
         return person;
-    }
+    }*/
     //endregion
 }
