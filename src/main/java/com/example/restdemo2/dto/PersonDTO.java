@@ -2,7 +2,7 @@ package com.example.restdemo2.dto;
 
 import com.example.restdemo2.domain.Person;
 import com.example.restdemo2.domain.Task;
-import lombok.Data;
+import lombok.*;
 import org.modelmapper.ModelMapper;
 
 import javax.validation.constraints.NotBlank;
@@ -10,7 +10,9 @@ import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
 public class PersonDTO {
     private static ModelMapper modelMapper = new ModelMapper();
 
@@ -27,9 +29,6 @@ public class PersonDTO {
     private boolean isHasTask;
 
     private List<Task> tasks = new ArrayList<>();
-
-    public PersonDTO() {
-    }
 
     public PersonDTO(Person person) {
         ResourceBundle bundle = ResourceBundle.getBundle("i18n/language", new Locale("vi"));

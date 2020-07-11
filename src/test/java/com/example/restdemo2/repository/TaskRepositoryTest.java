@@ -5,12 +5,17 @@ import com.example.restdemo2.domain.Task;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
-import java.util.Date;
+import java.util.List;
 
 @DataJpaTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class TaskRepositoryTest {
+    @Autowired
+    TestEntityManager testEntityManager;
 
     @Autowired
     TaskRepository taskRepository;
@@ -20,13 +25,14 @@ class TaskRepositoryTest {
 
     @Test
     public void whenSaveTaskThenReturnTask() {
-        Person person = new Person(1L,"Hà Lan", 21, 1500.0, new Date(), Person.Status.ACTIVE);
-        personRepository.save(person);
-
-        Task task = new Task(9L, "đi chợ", "Mua phải tiết kiệm", 5, person);
-        taskRepository.save(task);
-
-        Task taskReturn = taskRepository.getOne(1L);
+        Task task = new Task("đi chợ", "Mua phải tiết kiệm", 5, new Person(5L));
+        Task taskReturn = testEntityManager.persistAndFlush(task);
         Assertions.assertThat(taskReturn.getTitle()).isEqualTo(task.getTitle());
+    }
+
+    @Test
+    public void testFunction_getAllByPersonId() {
+        List<Task> tasks = taskRepository.getAllByPersonId(2L);
+        Assertions.assertThat(tasks).isNotNull();
     }
 }

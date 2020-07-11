@@ -12,8 +12,6 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
 @Entity
 public class Person implements Serializable {
     @Id
@@ -31,10 +29,10 @@ public class Person implements Serializable {
     @OneToMany(mappedBy = "person", fetch = FetchType.EAGER)
     private Set<Task> tasks = new HashSet<>();
 
-    public Person(String name, Integer age) {
+    /*public Person(String name, Integer age) {
         this.name = name;
         this.age = age;
-    }
+    }*/
 
     public Person(long id) {
         this.id = id;

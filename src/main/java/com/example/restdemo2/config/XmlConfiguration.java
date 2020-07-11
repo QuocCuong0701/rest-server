@@ -68,12 +68,16 @@ public class XmlConfiguration extends WsConfigurerAdapter {
         return validatingInterceptor;
     }
 
-    @SneakyThrows
     @Override
     public void addInterceptors(List<EndpointInterceptor> interceptors) {
         interceptors.add(payloadLoggingInterceptor());
         interceptors.add(payloadValidatingInterceptor());
-        interceptors.add(securityInterceptor());
+        try {
+            interceptors.add(securityInterceptor());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Autowired

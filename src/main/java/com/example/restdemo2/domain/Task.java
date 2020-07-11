@@ -11,8 +11,6 @@ import java.io.Serializable;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-//@RequiredArgsConstructor
-@Builder
 public class Task implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,9 +48,9 @@ public class Task implements Serializable {
             throw new IllegalArgumentException("Kiểu cấp bậc ưu tiên không tồn tại!");
         }
 
-        public int getCode() {
+        /*public int getCode() {
             return code;
-        }
+        }*/
 
         public String getName() {
             return name;
@@ -65,4 +63,11 @@ public class Task implements Serializable {
 
     @ManyToOne(fetch = FetchType.EAGER)
     private Person person;
+
+    public Task(String title, String description, int priority, Person person) {
+        this.title = title;
+        this.description = description;
+        this.priority = priority;
+        this.person = person;
+    }
 }

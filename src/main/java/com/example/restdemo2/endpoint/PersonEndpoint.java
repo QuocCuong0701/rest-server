@@ -33,15 +33,13 @@ public class PersonEndpoint {
             @RequestParam(value = "status", required = false) String status,
             @RequestParam(value = "personId", required = false) Long personId
     ) {
-        Page<Person> personPage = personService.getAllPerson(keyword, status, page, limit, personId);
+        Page<Person> personPage = personService.getAllPeople(keyword, status, page, limit, personId);
         return new ResponseEntity<>(
                 RESTResponse.Builder()
-                        .setStatus(HttpStatus.OK.value())
-                        .setMessage("Lấy danh sách thành công!")
+                        .setStatus(HttpStatus.OK.value()).setMessage("Lấy danh sách thành công!")
                         .setDatas(personPage.getContent().stream().map(PersonDTO::new).collect(Collectors.toList()))
                         .setPagination(new RESTPagination(page, limit, personPage.getTotalPages(), personPage.getTotalElements())).build()
-                , HttpStatus.OK
-        );
+                , HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
@@ -49,20 +47,21 @@ public class PersonEndpoint {
         return new PersonDTO(personService.getOne(id));
     }
 
-    @PostMapping("/update")
-    public PersonDTO updatePerson(@Valid @RequestBody PersonDTO person) {
+    //    @PostMapping("/update")
+    @PutMapping("/update")
+    public PersonDTO updatePerson(@Validated @RequestBody PersonDTO person) {
         return new PersonDTO(personService.updatePerson(person.toEntity()));
     }
 
     //region Test Validation
-   /* @GetMapping("/person/{id}")
-    public Person getById(@Min(2) @PathVariable("id") Long id) {
-        return new Person("Cuong", 23);
-    }
+    /*@GetMapping("/person/{id}")
+   public Person getById(@Min(2) @PathVariable("id") Long id) {
+        return new Person(id);
+    }*/
 
     @PostMapping("/person")
-    public Person create(@RequestBody @Validated Person person) {
+    public PersonDTO create(@Valid PersonDTO person) {
         return person;
-    }*/
+    }
     //endregion
 }

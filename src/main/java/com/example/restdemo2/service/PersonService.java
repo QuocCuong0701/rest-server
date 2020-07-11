@@ -16,7 +16,7 @@ public class PersonService {
     @Autowired
     PersonRepository personRepository;
 
-    public Page<Person> getAllPerson(String keyword, String status, int page, int limit, Long id){
+    public Page<Person> getAllPeople(String keyword, String status, int page, int limit, Long id){
         PersonSpecification specification = PersonSpecification.spec();
 
         Optional.ofNullable(keyword).ifPresent(specification::byName);
